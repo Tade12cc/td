@@ -119,11 +119,11 @@ struct CallFromUnmanaged {
 };
 #endif
 
-template <class ResT, class T>
+template <class ResT >
 ResT DoFromUnmanaged(T &from) {
 #if TD_WINRT
   ResT res;
-  downcast_call(from, [&](auto &from_downcasted) {
+  downcast_call(from, [&]( &from_downcasted) {
     res = FromUnmanaged(from_downcasted);
   });
   return res;
@@ -190,7 +190,7 @@ auto ToUnmanaged(Array<FromT>^ from) {
 
 inline NativeObject^ ToUnmanaged(BaseObject^ from) {
   if (!from) {
-    return REF_NEW NativeObject(nullptr);
+    return REF_NEW NativeObject();
   }
 
   return from->ToUnmanaged();
@@ -200,6 +200,6 @@ inline String^ ToString(BaseObject^ from) {
   return string_from_unmanaged(td::td_api::to_string(ToUnmanaged(from)->get_object_ptr()));
 }
 
-}  // namespace Api
-}  // namespace Td
-}  // namespace Telegram
+}  // namespace
+}  // namespace
+}  // namespace 
